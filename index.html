@@ -104,6 +104,21 @@
   <script>
     // Ticker functionality - Time and Weather updates
     (function() {
+      // Configuration constants
+      const OC_LAT = 33.7175;
+      const OC_LON = -117.8311;
+      const WEATHER_UPDATE_INTERVAL = 10 * 60 * 1000; // 10 minutes
+      const TIME_UPDATE_INTERVAL = 1000; // 1 second
+      
+      // WMO weather codes to descriptions mapping
+      const WEATHER_CODES = {
+        0: 'Clear', 1: 'Mainly Clear', 2: 'Partly Cloudy', 3: 'Overcast',
+        45: 'Foggy', 48: 'Foggy', 51: 'Light Drizzle', 53: 'Drizzle', 55: 'Heavy Drizzle',
+        61: 'Light Rain', 63: 'Rain', 65: 'Heavy Rain', 71: 'Light Snow', 73: 'Snow', 75: 'Heavy Snow',
+        77: 'Snow Grains', 80: 'Light Showers', 81: 'Showers', 82: 'Heavy Showers',
+        85: 'Light Snow Showers', 86: 'Snow Showers', 95: 'Thunderstorm', 96: 'Thunderstorm', 99: 'Thunderstorm'
+      };
+      
       // Update time displays
       function updateTime() {
         const now = new Date();
@@ -133,24 +148,13 @@
         const weatherEl = document.getElementById('weather-info');
         try {
           // Using Open-Meteo API which is free, no API key required, and CORS-friendly
-          // Orange County, CA coordinates: 33.7175, -117.8311
-          const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=33.7175&longitude=-117.8311&current_weather=true&temperature_unit=fahrenheit');
+          const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${OC_LAT}&longitude=${OC_LON}&current_weather=true&temperature_unit=fahrenheit`);
           const data = await response.json();
           
           if (data && data.current_weather) {
             const current = data.current_weather;
             const temp = Math.round(current.temperature);
-            
-            // Map WMO weather codes to descriptions
-            const weatherCodes = {
-              0: 'Clear', 1: 'Mainly Clear', 2: 'Partly Cloudy', 3: 'Overcast',
-              45: 'Foggy', 48: 'Foggy', 51: 'Light Drizzle', 53: 'Drizzle', 55: 'Heavy Drizzle',
-              61: 'Light Rain', 63: 'Rain', 65: 'Heavy Rain', 71: 'Light Snow', 73: 'Snow', 75: 'Heavy Snow',
-              77: 'Snow Grains', 80: 'Light Showers', 81: 'Showers', 82: 'Heavy Showers',
-              85: 'Light Snow Showers', 86: 'Snow Showers', 95: 'Thunderstorm', 96: 'Thunderstorm', 99: 'Thunderstorm'
-            };
-            
-            const desc = weatherCodes[current.weathercode] || 'Unknown';
+            const desc = WEATHER_CODES[current.weathercode] || 'Unknown';
             weatherEl.textContent = `${temp}°F, ${desc}`;
           } else {
             weatherEl.textContent = 'Weather data unavailable';
@@ -166,14 +170,12 @@
       updateWeather();
       
       // Update time every second
-      setInterval(updateTime, 1000);
+      setInterval(updateTime, TIME_UPDATE_INTERVAL);
       
       // Update weather every 10 minutes
-      setInterval(updateWeather, 10 * 60 * 1000);
+      setInterval(updateWeather, WEATHER_UPDATE_INTERVAL);
     })();
   </script>
-
-  <!-- channels.js will be fetched with cache: 'no-cache' to avoid stale cached copies -->
   <script>
     (async function(){
       try {
