@@ -51,7 +51,7 @@ window.CHANNEL_GROUPS = {
   },
 
   other: {
-    label: "Other (Later)",
+    label: "Aviation",
     channels: [
       {
         name: "LAX Runways Cam 1",
