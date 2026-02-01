@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Player</title>
+  <style>html,body{height:100%;margin:0;background:#000}iframe{width:100%;height:100%;border:0}</style>
+</head>
+<body>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const src = params.get('src');
+    if (!src) {
+      document.body.innerHTML = '<div style="color:#fff;padding:16px">No source provided.</div>';
+    } else {
+      const iframe = document.createElement('iframe');
+      iframe.src = decodeURIComponent(src);
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      document.body.appendChild(iframe);
+    }
+  </script>
+</body>
+</html>

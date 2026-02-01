@@ -109,7 +109,7 @@
       iframe.height = 315;
       iframe.style.width = '100%';
       iframe.style.height = '360px';
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; autoplay');
       iframe.allowFullscreen = true;
       // no sandbox here — many video players need features that sandbox blocks.
       iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
@@ -201,8 +201,84 @@
             }, 3000);
           });
 
-          actions.appendChild(play);
-          actions.appendChild(open);
+          // Popout button — opens a minimal player page (player.html)
+          const popout = document.createElement('button');
+          popout.className = 'play';
+          popout.textContent = 'Popout';
+          popout.type = 'button';
+          popout.style.background = '#2f2f2f';
+          popout.addEventListener('click', () => {
+            const url = 'player.html?src=' + encodeURIComponent(channel.url);
+            window.open(url, '_blank', 'noopener,noreferrer');
+          });
+
+          // Focus button — fullscreen overlay on the current page
+          const focus = document.createElement('button');
+          focus.className = 'play';
+          focus.textContent = 'Focus';
+          focus.type = 'button';
+          focus.style.background = '#444';
+          focus.addEventListener('click', () => {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.inset = 0;
+            overlay.style.background = 'black';
+            overlay.style.zIndex = 2147483647;
+            overlay.style.display = 'flex';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+
+            const frameWrap = document.createElement('div');
+            frameWrap.style.width = '100%';
+            frameWrap.style.maxWidth = '1280px';
+            frameWrap.style.height = '100%';
+            frameWrap.style.display = 'flex';
+            frameWrap.style.alignItems = 'center';
+            frameWrap.style.justifyContent = 'center';
+
+            const iframe = createIframe(channel);
+            iframe.style.height = '100%';
+            iframe.style.maxHeight = '100vh';
+            iframe.style.width = '100%';
+            iframe.style.maxWidth = '100%';
+            frameWrap.appendChild(iframe);
+
+            const close = document.createElement('button');
+            close.textContent = '\u00d7';
+            close.title = 'Close';
+            close.style.position = 'absolute';
+            close.style.right = '14px';
+            close.style.top = '10px';
+            close.style.fontSize = '28px';
+            close.style.background = 'transparent';
+            close.style.color = '#fff';
+            close.style.border = 'none';
+            close.style.cursor = 'pointer';
+            close.style.zIndex = 2147483648;
+            close.addEventListener('click', () => {
+              try { if (document.fullscreenElement) document.exitFullscreen(); } catch(e) {}
+              overlay.remove();
+            });
+
+            overlay.appendChild(frameWrap);
+            overlay.appendChild(close);
+            document.body.appendChild(overlay);
+
+            // Request fullscreen (user gesture)
+            if (overlay.requestFullscreen) overlay.requestFullscreen().catch(()=>{});
+          });
+
+          const openBtn = open; // keep name
+
+          const actionsContainer = document.createElement('div');
+          actionsContainer.className = 'meta-actions';
+          // Append controls: Play, Focus, Popout, Open link
+          actionsContainer.appendChild(play);
+          actionsContainer.appendChild(focus);
+          actionsContainer.appendChild(popout);
+          actionsContainer.appendChild(openBtn);
+
+          actions.appendChild(actionsContainer);
 
           meta.appendChild(name);
           meta.appendChild(actions);

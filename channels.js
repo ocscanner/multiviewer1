@@ -9,12 +9,12 @@ window.CHANNEL_GROUPS = {
       {
         name: "FOX (Local)",
         type: "youtube",
-        url: "https://www.youtube.com/embed/8u8pQ_uLGjo?autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/8u8pQ_uLGjo?autoplay=1&mute=1&playsinline=1"
       },
       {
         name: "ABC7 Los Angeles (Official)",
-        type: "iframe",
-        url: "https://abc7.com/watch/11064936/"
+        type: "youtube",
+        url: "https://www.youtube.com/embed/s3iVFJoxrYc?si=Ci8jUjHc6TR0xCTl&autoplay=1&mute=1&playsinline=1"
       },
       {
         name: "NBC Los Angeles (Official)",
@@ -30,17 +30,17 @@ window.CHANNEL_GROUPS = {
       {
         name: "NBC News (Live)",
         type: "youtube",
-        url: "https://www.youtube.com/embed/live_stream?channel=UCiWLfSweyRNmLpgEHekhoAg&autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/MINldxbTOSI?si=XOdOYXSKJrmdpNG8&autoplay=1&mute=1&playsinline=1"
       },
       {
         name: "ABC News (National)",
         type: "youtube",
-        url: "https://www.youtube.com/embed/1qSichtfkjk?autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/1qSichtfkjk?autoplay=1&mute=1&playsinline=1"
       },
       {
         name: "FOX Weather",
         type: "youtube",
-        url: "https://www.youtube.com/embed/wt6SIE7BXS8?autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/wt6SIE7BXS8?autoplay=1&mute=1&playsinline=1"
       }
     ]
   },
@@ -51,12 +51,12 @@ window.CHANNEL_GROUPS = {
       {
         name: "LAX Runways Cam 1",
         type: "youtube",
-        url: "https://www.youtube.com/embed/VjqKog3XwZ8?autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/VjqKog3XwZ8?autoplay=1&mute=1&playsinline=1"
       },
       {
         name: "LAX Runways Cam 2",
         type: "youtube",
-        url: "https://www.youtube.com/embed/UQaSS4_VAV4?autoplay=1&mute=1"
+        url: "https://www.youtube.com/embed/UQaSS4_VAV4?autoplay=1&mute=1&playsinline=1"
       }
     ]
   }
