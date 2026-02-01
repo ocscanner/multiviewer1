@@ -41,6 +41,11 @@ window.CHANNEL_GROUPS = {
         name: "FOX Weather",
         type: "youtube",
         url: "https://www.youtube.com/embed/wt6SIE7BXS8?autoplay=1&mute=1&playsinline=1"
+      },
+      {
+        name: "Newsmax",
+        type: "youtube",
+        url: "https://www.youtube.com/embed/1PBghQXi8TA?si=HCSHzeDjaBsOo5jK&autoplay=1&mute=1&playsinline=1"
       }
     ]
   },
@@ -57,6 +62,11 @@ window.CHANNEL_GROUPS = {
         name: "LAX Runways Cam 2",
         type: "youtube",
         url: "https://www.youtube.com/embed/UQaSS4_VAV4?autoplay=1&mute=1&playsinline=1"
+      },
+      {
+        name: "LAS Airport",
+        type: "youtube",
+        url: "https://www.youtube.com/embed/cn8_34TuMaM?si=uL5HnJYR0lWCzzjI&autoplay=1&mute=1&playsinline=1"
       }
     ]
   }
