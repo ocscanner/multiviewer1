@@ -66,15 +66,19 @@
           s.type = 'text/javascript';
           s.textContent = txt;
           document.head.appendChild(s);
+          // notify any listeners that channels have been injected
+          document.dispatchEvent(new Event('channels-loaded'));
         } else {
           const s = document.createElement('script');
           s.src = 'channels.js';
+          s.onload = () => document.dispatchEvent(new Event('channels-loaded'));
           document.head.appendChild(s);
           console.warn('channels.js fetched but content looks invalid; falling back to standard include.');
         }
       } catch (err) {
         const s = document.createElement('script');
         s.src = 'channels.js';
+        s.onload = () => document.dispatchEvent(new Event('channels-loaded'));
         document.head.appendChild(s);
         console.error('Failed to load channels.js via fetch, falling back to <script src="channels.js">:', err);
       }
@@ -87,7 +91,6 @@
     if (window.APP_CONFIG && window.APP_CONFIG.title) titleEl.textContent = window.APP_CONFIG.title;
 
     const groupsContainer = document.getElementById('groups');
-    const CHANNELS = window.CHANNEL_GROUPS || {};
 
     function extractYoutubeId(url) {
       if (!url) return null;
@@ -137,7 +140,9 @@
       return iframe;
     }
 
-    function render() {
+    function renderChannels() {
+      const CHANNELS = window.CHANNEL_GROUPS || {};
+      groupsContainer.innerHTML = ''; // clear first
       Object.keys(CHANNELS).forEach(key => {
         const group = CHANNELS[key];
         const groupEl = document.createElement('section');
@@ -302,16 +307,48 @@
       });
     }
 
-    try {
-      if (typeof CHANNELS !== 'object') {
-        groupsContainer.textContent = 'No channels configured.';
-      } else {
-        render();
+    // Initialization: wait for channels to be available, then render.
+    function initWhenChannelsReady(timeoutMs = 10000) {
+      console.debug('initWhenChannelsReady called');
+      // If channels are already present, render immediately.
+      if (window.CHANNEL_GROUPS && Object.keys(window.CHANNEL_GROUPS).length > 0) {
+        renderChannels();
+        return;
       }
-    } catch (err) {
-      console.error('Render error:', err);
-      groupsContainer.textContent = 'An error occurred while rendering channels.';
+
+      // Listen for explicit event from loader.
+      const onLoaded = () => {
+        try { renderChannels(); } catch(e){ console.error(e); }
+        cleanup();
+      };
+
+      function cleanup(){
+        document.removeEventListener('channels-loaded', onLoaded);
+        if (pollHandle) clearInterval(pollHandle);
+      }
+
+      document.addEventListener('channels-loaded', onLoaded);
+
+      // Poll as a fallback (in case event fired before listener or loader didn't dispatch)
+      const start = Date.now();
+      const pollHandle = setInterval(() => {
+        if (window.CHANNEL_GROUPS && Object.keys(window.CHANNEL_GROUPS).length > 0) {
+          renderChannels();
+          cleanup();
+        } else if (Date.now() - start > timeoutMs) {
+          // Give up after timeout: show helpful message
+          groupsContainer.textContent = 'No channels configured or channels failed to load.';
+          cleanup();
+        }
+      }, 200);
     }
+
+    // Expose functions globally so manual calls and debugging from console work.
+    window.renderChannels = renderChannels;
+    window.initWhenChannelsReady = initWhenChannelsReady;
+
+    // Kick off initialization (also available as window.initWhenChannelsReady)
+    window.initWhenChannelsReady();
   </script>
 </body>
 </html>
