@@ -54,12 +54,12 @@ window.CHANNEL_GROUPS = {
     label: "Aviation",
     channels: [
       {
-        name: "LAX Runways Cam 1",
+        name: "LAX Runways Cam 24",
         type: "youtube",
         url: "https://www.youtube.com/embed/VjqKog3XwZ8?autoplay=1&mute=1&playsinline=1"
       },
       {
-        name: "LAX Runways Cam 2",
+        name: "LAX Runways Cam 25",
         type: "youtube",
         url: "https://www.youtube.com/embed/UQaSS4_VAV4?autoplay=1&mute=1&playsinline=1"
       },
