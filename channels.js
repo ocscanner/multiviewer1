@@ -20,6 +20,11 @@ window.CHANNEL_GROUPS = {
         name: "NBC Los Angeles (Official)",
         type: "iframe",
         url: "https://www.nbclosangeles.com/watch/"
+      },
+      {
+        name: "CBS Los Angeles (Live)",
+        type: "iframe",
+        url: "https://www.cbsnews.com/losangeles/live/"
       }
     ]
   },
