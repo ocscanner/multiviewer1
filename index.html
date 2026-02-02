@@ -57,7 +57,7 @@
     .group { background:var(--card); border:1px solid rgba(255,255,255,0.03); padding:12px; border-radius:8px }
     .group h2 { margin:0 0 8px 0; font-size:1rem; color:var(--text) }
     .channel { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px }
-    .thumb { width:160px; height:90px; background:#000; display:flex; align-items:center; justify-content:center; color:#999; border-radius:6px; overflow:hidden; flex:0 0 160px; }
+    .thumb { width:320px; height:180px; background:#000; display:flex; align-items:center; justify-content:center; color:#999; border-radius:6px; overflow:hidden; flex:0 0 320px; }
     .thumb img{width:100%; height:100%; object-fit:cover; display:block}
     .meta { flex:1; min-width:0 }
     .meta .name { font-weight:600; margin-bottom:6px; word-break:break-word }
@@ -98,7 +98,7 @@
     <main>
       <div id="groups" class="groups" aria-live="polite"></div>
       <footer>
-        <div>Click Play to load a stream (lazy-loaded to save CPU & bandwidth). Use "Open in new tab" if embedding is blocked.</div>
+        <div>Click Play to load a stream (lazy-loaded to save CPU & bandwidth).</div>
         <div>Note: Some sites prevent embedding (X-Frame-Options or CSP). If a stream doesn't load, open it directly.</div>
       </footer>
     </main>
@@ -307,13 +307,6 @@
           play.textContent = 'Play';
           play.type = 'button';
 
-          const open = document.createElement('a');
-          open.className = 'fallback';
-          open.href = channel.url || '#';
-          open.target = '_blank';
-          open.rel = 'noopener noreferrer';
-          open.textContent = 'Open in new tab';
-
           const small = document.createElement('div');
           small.className = 'small';
           small.textContent = channel.type ? channel.type : '';
@@ -341,13 +334,6 @@
               if (!loaded) {
                 const blocked = document.createElement('div');
                 blocked.innerHTML = '<div class="blocked">Embedding appears to be blocked by the source.</div>';
-                const openNow = document.createElement('a');
-                openNow.href = channel.url || '#';
-                openNow.target = '_blank';
-                openNow.rel = 'noopener noreferrer';
-                openNow.className = 'fallback';
-                openNow.textContent = 'Open directly in a new tab';
-                blocked.appendChild(openNow);
                 frameWrap.replaceChild(blocked, iframe);
               }
             }, 3000);
@@ -417,14 +403,11 @@
             if (overlay.requestFullscreen) overlay.requestFullscreen().catch(()=>{});
           });
 
-          const openBtn = open;
-
           const actionsContainer = document.createElement('div');
           actionsContainer.className = 'meta-actions';
           actionsContainer.appendChild(play);
           actionsContainer.appendChild(focus);
           actionsContainer.appendChild(popout);
-          actionsContainer.appendChild(openBtn);
 
           actions.appendChild(actionsContainer);
 
