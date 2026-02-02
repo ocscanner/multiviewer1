@@ -56,12 +56,12 @@
     .groups { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px }
     .group { background:var(--card); border:1px solid rgba(255,255,255,0.03); padding:12px; border-radius:8px }
     .group h2 { margin:0 0 8px 0; font-size:1rem; color:var(--text) }
-    .channel { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px }
-    .thumb { width:160px; height:90px; background:#000; display:flex; align-items:center; justify-content:center; color:#999; border-radius:6px; overflow:hidden; flex:0 0 160px; }
+    .channel { display:flex; flex-direction:column; gap:8px; margin-bottom:12px }
+    .thumb { width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; color:#999; border-radius:6px; overflow:hidden; }
     .thumb img{width:100%; height:100%; object-fit:cover; display:block}
-    .meta { flex:1; min-width:0 }
+    .meta { width:100% }
     .meta .name { font-weight:600; margin-bottom:6px; word-break:break-word }
-    .meta .actions { display:flex; gap:8px; align-items:center }
+    .meta .actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
     button.play { background:var(--accent); color:white; border:0; padding:8px 10px; border-radius:6px; cursor:pointer; font-weight:600 }
     a.fallback { color:#9cc; font-size:0.9rem; text-decoration:none }
     .small { font-size:0.85rem; color:var(--muted) }
@@ -77,6 +77,10 @@
       <span class="ticker-value" id="local-time">--:--:--</span>
     </div>
     <div class="ticker-item">
+      <span class="ticker-label">EST:</span>
+      <span class="ticker-value" id="est-time">--:--:--</span>
+    </div>
+    <div class="ticker-item">
       <span class="ticker-label">UTC:</span>
       <span class="ticker-value" id="utc-time">--:--:--</span>
     </div>
@@ -89,13 +93,13 @@
   <div class="content-wrapper">
     <header>
       <h1 id="title">Multiviewer</h1>
-      <div class="note">Click Play to load a stream (lazy-loaded to save CPU & bandwidth). Use "Open in new tab" if embedding is blocked.</div>
     </header>
 
     <main>
       <div id="groups" class="groups" aria-live="polite"></div>
       <footer>
-        Note: Some sites prevent embedding (X-Frame-Options or CSP). If a stream doesn't load, open it directly.
+        <div>Click Play to load a stream (lazy-loaded to save CPU & bandwidth).</div>
+        <div>Note: Some sites prevent embedding (X-Frame-Options or CSP). If a stream doesn't load, open it directly.</div>
       </footer>
     </main>
   </div>
@@ -123,9 +127,19 @@
       function updateTime() {
         const now = new Date();
         
+        // EST time
+        const estTimeStr = now.toLocaleTimeString('en-US', { 
+          timeZone: 'America/New_York',
+          hour12: false, 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit' 
+        });
+        document.getElementById('est-time').textContent = estTimeStr;
+        
         // Local time
         const localTimeStr = now.toLocaleTimeString('en-US', { 
-          hour12: true, 
+          hour12: false, 
           hour: '2-digit', 
           minute: '2-digit', 
           second: '2-digit' 
@@ -135,7 +149,7 @@
         // UTC time
         const utcTimeStr = now.toLocaleTimeString('en-US', { 
           timeZone: 'UTC',
-          hour12: true, 
+          hour12: false, 
           hour: '2-digit', 
           minute: '2-digit', 
           second: '2-digit' 
@@ -293,13 +307,6 @@
           play.textContent = 'Play';
           play.type = 'button';
 
-          const open = document.createElement('a');
-          open.className = 'fallback';
-          open.href = channel.url || '#';
-          open.target = '_blank';
-          open.rel = 'noopener noreferrer';
-          open.textContent = 'Open in new tab';
-
           const small = document.createElement('div');
           small.className = 'small';
           small.textContent = channel.type ? channel.type : '';
@@ -327,13 +334,6 @@
               if (!loaded) {
                 const blocked = document.createElement('div');
                 blocked.innerHTML = '<div class="blocked">Embedding appears to be blocked by the source.</div>';
-                const openNow = document.createElement('a');
-                openNow.href = channel.url || '#';
-                openNow.target = '_blank';
-                openNow.rel = 'noopener noreferrer';
-                openNow.className = 'fallback';
-                openNow.textContent = 'Open directly in a new tab';
-                blocked.appendChild(openNow);
                 frameWrap.replaceChild(blocked, iframe);
               }
             }, 3000);
@@ -403,14 +403,11 @@
             if (overlay.requestFullscreen) overlay.requestFullscreen().catch(()=>{});
           });
 
-          const openBtn = open;
-
           const actionsContainer = document.createElement('div');
           actionsContainer.className = 'meta-actions';
           actionsContainer.appendChild(play);
           actionsContainer.appendChild(focus);
           actionsContainer.appendChild(popout);
-          actionsContainer.appendChild(openBtn);
 
           actions.appendChild(actionsContainer);
 
@@ -418,8 +415,8 @@
           meta.appendChild(actions);
           meta.appendChild(small);
 
-          row.appendChild(thumbWrap);
           row.appendChild(meta);
+          row.appendChild(thumbWrap);
           groupEl.appendChild(row);
         });
 
