@@ -19,7 +19,7 @@ window.CHANNEL_GROUPS = {
       {
         name: "NBC Los Angeles (Official)",
         type: "iframe",
-        url: "https://www.nbclosangeles.com/watch/"
+        url: "https://www.nbcnews.com/watch#los-angeles"
       }
     ]
   },
