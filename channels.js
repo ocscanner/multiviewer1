@@ -34,8 +34,8 @@ window.CHANNEL_GROUPS = {
       },
       {
         name: "ABC News (National)",
-        type: "youtube",
-        url: "https://www.youtube.com/embed/1qSichtfkjk?autoplay=1&mute=1&playsinline=1"
+        type: "iframe",
+        url: "https://abcnews.go.com/Live"
       },
       {
         name: "FOX Weather",
