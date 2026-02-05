@@ -18,8 +18,8 @@ window.CHANNEL_GROUPS = {
       },
       {
         name: "NBC Los Angeles (Official)",
-        type: "iframe",
-        url: "https://www.nbclosangeles.com/watch/"
+        type: "youtube",
+        url: "https://www.youtube.com/embed/live_stream?channel=UCSWoppsVL0TLxFQ2qP_DLqQ&autoplay=1&mute=1&playsinline=1"
       }
     ]
   },
@@ -34,8 +34,8 @@ window.CHANNEL_GROUPS = {
       },
       {
         name: "ABC News (National)",
-        type: "youtube",
-        url: "https://www.youtube.com/embed/1qSichtfkjk?autoplay=1&mute=1&playsinline=1"
+        type: "iframe",
+        url: "https://abcnews.go.com/Live"
       },
       {
         name: "FOX Weather",
