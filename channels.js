@@ -29,8 +29,8 @@ window.CHANNEL_GROUPS = {
     channels: [
       {
         name: "NBC News (Live)",
-        type: "youtube",
-        url: "https://www.youtube.com/embed/MINldxbTOSI?si=XOdOYXSKJrmdpNG8&autoplay=1&mute=1&playsinline=1"
+        type: "NBC News",
+        url: "https://www.nbcnews.com/watch"
       },
       {
         name: "ABC News (National)",
