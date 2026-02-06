@@ -18,8 +18,8 @@ window.CHANNEL_GROUPS = {
       },
       {
         name: "NBC Los Angeles (Official)",
-        type: "youtube",
-        url: "https://www.youtube.com/embed/live_stream?channel=UCSWoppsVL0TLxFQ2qP_DLqQ&autoplay=1&mute=1&playsinline=1"
+        type: "iframe",
+        url: "https://www.nbcnews.com/watch#los-angeles"
       }
     ]
   },
