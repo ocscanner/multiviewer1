@@ -44,8 +44,8 @@ window.CHANNEL_GROUPS = {
       },
       {
         name: "Newsmax",
-        type: "youtube",
-        url: "https://www.youtube.com/embed/1PBghQXi8TA?si=HCSHzeDjaBsOo5jK&autoplay=1&mute=1&playsinline=1"
+        type: "native",
+        url: "https://www.newsmaxtv.com/n2?_gl=1*143s8c8*_up*MQ..*_ga*NTEwNjA3NTI3LjE3NzA3NzE4NjY.*_ga_KE29295PE4*czE3NzA3NzE4NjUkbzEkZzAkdDE3NzA3NzE4NjUkajYwJGwwJGgw*_ga_8SR20M04L8*czE3NzA3NzE4NjYkbzEkZzAkdDE3NzA3NzE4NjYkajYwJGwwJGgw"
       }
     ]
   },
